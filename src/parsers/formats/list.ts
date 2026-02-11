@@ -1,6 +1,6 @@
 import update from 'immutability-helper';
 import { Content, List, Parent, Root } from 'mdast';
-import { ListItem } from 'mdast-util-from-markdown/lib';
+import { ListItem } from 'mdast';
 import { toString } from 'mdast-util-to-string';
 import { stringifyYaml } from 'obsidian';
 import { KanbanSettings } from 'src/Settings';
@@ -52,8 +52,8 @@ export function listItemToItemData(stateManager: StateManager, md: string, item:
   const moveTags = stateManager.getSetting('move-tags');
   const moveDates = stateManager.getSetting('move-dates');
 
-  const startNode = item.children.first();
-  const endNode = item.children.last();
+  const startNode = (item as any).children.first();
+  const endNode = (item as any).children.last();
 
   const start =
     startNode.type === 'paragraph'
@@ -68,7 +68,7 @@ export function listItemToItemData(stateManager: StateManager, md: string, item:
   let itemContent = getStringFromBoundary(md, itemBoundary);
 
   // Handle empty task
-  if (itemContent === '[' + (item.checked ? item.checkChar : ' ') + ']') {
+  if (itemContent === '[' + ((item as any).checked ? (item as any).checkChar : ' ') + ']') {
     itemContent = '';
   }
 
@@ -76,11 +76,11 @@ export function listItemToItemData(stateManager: StateManager, md: string, item:
   let titleSearch = '';
 
   visit(
-    item,
+    item as any,
     ['text', 'wikilink', 'embedWikilink', 'image', 'inlineCode', 'code', 'hashtag'],
     (node: any, i, parent) => {
       if (node.type === 'hashtag') {
-        if (!parent.children.first()?.value?.startsWith('```')) {
+        if (!(parent as any).children.first()?.value?.startsWith('```')) {
           titleSearch += ' #' + node.value;
         }
       } else {
@@ -106,12 +106,12 @@ export function listItemToItemData(stateManager: StateManager, md: string, item:
       fileMetadata: undefined,
       fileMetadataOrder: undefined,
     },
-    checked: item.checked,
-    checkChar: item.checked ? item.checkChar || ' ' : ' ',
+    checked: (item as any).checked,
+    checkChar: (item as any).checked ? (item as any).checkChar || ' ' : ' ',
   };
 
   visit(
-    item,
+    item as any,
     (node) => {
       return node.type !== 'paragraph';
     },
@@ -279,7 +279,7 @@ export function astToUnhydratedBoard(
             return {
               ...ItemTemplate,
               id: generateInstanceId(),
-              data: listItemToItemData(stateManager, md, listItem),
+              data: listItemToItemData(stateManager, md, listItem as any),
             };
           })
         );
@@ -301,7 +301,7 @@ export function astToUnhydratedBoard(
         lanes.push({
           ...LaneTemplate,
           children: (list as List).children.map((listItem) => {
-            const data = listItemToItemData(stateManager, md, listItem);
+            const data = listItemToItemData(stateManager, md, listItem as any);
             return {
               ...ItemTemplate,
               id: generateInstanceId(),
@@ -336,7 +336,11 @@ export function updateItemContent(stateManager: StateManager, oldItem: Item, new
   const md = `- [${oldItem.data.checkChar}] ${addBlockId(indentNewLines(newContent), oldItem)}`;
 
   const ast = parseFragment(stateManager, md);
-  const itemData = listItemToItemData(stateManager, md, (ast.children[0] as List).children[0]);
+  const itemData = listItemToItemData(
+    stateManager,
+    md,
+    (ast.children[0] as List).children[0] as any
+  );
   const newItem = update(oldItem, {
     data: {
       $set: itemData,
@@ -360,7 +364,11 @@ export function newItem(
 ) {
   const md = `- [${checkChar}] ${indentNewLines(newContent)}`;
   const ast = parseFragment(stateManager, md);
-  const itemData = listItemToItemData(stateManager, md, (ast.children[0] as List).children[0]);
+  const itemData = listItemToItemData(
+    stateManager,
+    md,
+    (ast.children[0] as List).children[0] as any
+  );
 
   itemData.forceEditMode = !!forceEdit;
 

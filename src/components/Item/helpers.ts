@@ -1,5 +1,5 @@
 import { FileWithPath, fromEvent } from 'file-selector';
-import { Platform, TFile, TFolder, htmlToMarkdown, moment, parseLinktext, setIcon } from 'obsidian';
+import { Platform, TFile, TFolder, htmlToMarkdown, parseLinktext, setIcon } from 'obsidian';
 import { StateManager } from 'src/StateManager';
 import { Path } from 'src/dnd/types';
 import { buildLinkToDailyNote } from 'src/helpers';

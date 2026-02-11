@@ -187,7 +187,7 @@ export function parseMarkdown(stateManager: StateManager, md: string) {
   return {
     settings,
     frontmatter: fileFrontmatter,
-    ast: fromMarkdown(md, {
+    ast: (fromMarkdown as any)(md, {
       extensions: [frontmatter(['yaml']), ...getExtensions(stateManager)],
       mdastExtensions: [frontmatterFromMarkdown(['yaml']), ...getMdastExtensions(stateManager)],
     }),
@@ -195,7 +195,7 @@ export function parseMarkdown(stateManager: StateManager, md: string) {
 }
 
 export function parseFragment(stateManager: StateManager, md: string) {
-  return fromMarkdown(md, {
+  return (fromMarkdown as any)(md, {
     extensions: getExtensions(stateManager),
     mdastExtensions: getMdastExtensions(stateManager),
   });

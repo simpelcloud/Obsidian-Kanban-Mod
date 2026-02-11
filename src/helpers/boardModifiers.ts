@@ -1,5 +1,4 @@
 import update from 'immutability-helper';
-import { moment } from 'obsidian';
 import { KanbanView } from 'src/KanbanView';
 import { StateManager } from 'src/StateManager';
 import { Path } from 'src/dnd/types';

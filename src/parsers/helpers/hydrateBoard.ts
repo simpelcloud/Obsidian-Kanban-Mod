@@ -1,4 +1,4 @@
-import { moment } from 'obsidian';
+import 'obsidian';
 import { StateManager } from 'src/StateManager';
 import { c, escapeRegExpStr, getDateColorFn } from 'src/components/helpers';
 import { Board, DataTypes, DateColor, Item, Lane } from 'src/components/types';

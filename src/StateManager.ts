@@ -1,5 +1,5 @@
 import update from 'immutability-helper';
-import { App, TFile, moment } from 'obsidian';
+import { App, TFile } from 'obsidian';
 import { useEffect, useState } from 'preact/compat';
 
 import { KanbanView } from './KanbanView';

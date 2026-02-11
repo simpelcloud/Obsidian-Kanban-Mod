@@ -235,3 +235,33 @@ interface AriaAttributes {
   /** Defines the human readable text alternative of aria-valuenow for a range widget. */
   'aria-valuetext'?: string | undefined;
 }
+
+declare module 'classcat' {
+  export default function classcat(...args: any[]): string;
+}
+
+declare module 'is-plain-object' {
+  export function isPlainObject(value: any): value is Record<string, any>;
+}
+
+declare module 'mdast-util-from-markdown' {
+  export function fromMarkdown(value: string, options?: any): any;
+  export interface Extension {}
+  export interface Token {}
+  export interface CompileContext {
+    stack: any[];
+  }
+}
+
+declare namespace moment {
+  class Moment {
+    format(format?: string): string;
+    startOf(unit: string): Moment;
+    isSame(date: any, unit?: string): boolean;
+    from(date: any): string;
+    // add more as needed
+  }
+}
+
+declare const app: any;
+declare const moment: any;

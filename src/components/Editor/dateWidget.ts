@@ -9,7 +9,7 @@ import {
   ViewUpdate,
   WidgetType,
 } from '@codemirror/view';
-import { moment } from 'obsidian';
+import moment from 'moment';
 
 import { StateManager } from '../../StateManager';
 import { escapeRegExpStr } from '../helpers';
@@ -74,7 +74,7 @@ function decorate(type: 'date' | 'time') {
     if (!stateManager) return;
 
     const dateStr = match[1];
-    const parsed = moment(
+    const parsed = (moment as any)(
       dateStr,
       stateManager.getSetting(type === 'date' ? 'date-format' : 'time-format')
     );

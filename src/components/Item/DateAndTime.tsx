@@ -1,5 +1,5 @@
 import classcat from 'classcat';
-import { getLinkpath, moment } from 'obsidian';
+import { getLinkpath } from 'obsidian';
 import { JSX, useMemo } from 'preact/compat';
 import { StateManager } from 'src/StateManager';
 import { t } from 'src/lang/helpers';

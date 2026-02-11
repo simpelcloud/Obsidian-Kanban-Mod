@@ -1,6 +1,6 @@
 import classcat from 'classcat';
 import { isPlainObject } from 'is-plain-object';
-import { TFile, moment } from 'obsidian';
+import { TFile } from 'obsidian';
 import { getAPI } from 'obsidian-dataview';
 import { ComponentChild } from 'preact';
 import { memo, useContext, useMemo } from 'preact/compat';

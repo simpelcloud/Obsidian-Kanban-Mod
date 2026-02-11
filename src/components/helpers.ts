@@ -1,5 +1,6 @@
 import update from 'immutability-helper';
-import { App, MarkdownView, TFile, moment } from 'obsidian';
+import moment from 'moment';
+import { App, MarkdownView, TFile } from 'obsidian';
 import Preact, { Dispatch, RefObject, useEffect } from 'preact/compat';
 import { StateUpdater, useMemo } from 'preact/hooks';
 import { StateManager } from 'src/StateManager';
@@ -258,7 +259,7 @@ export function getDateColorFn(dateColors: DateColor[]) {
       }
 
       const modifier = c.direction === 'after' ? 1 : -1;
-      const date = moment();
+      const date = (moment as any)();
 
       date.add(c.distance * modifier, c.unit);
 

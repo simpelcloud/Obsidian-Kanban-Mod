@@ -1,4 +1,5 @@
-import { EditorSuggestContext, moment } from 'obsidian';
+import moment from 'moment';
+import { EditorSuggestContext } from 'obsidian';
 import { StateManager } from 'src/StateManager';
 import { buildLinkToDailyNote } from 'src/helpers';
 

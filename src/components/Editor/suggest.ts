@@ -1,3 +1,4 @@
+import moment from 'moment';
 import {
   App,
   Editor,
@@ -6,7 +7,6 @@ import {
   EditorSuggestContext,
   EditorSuggestTriggerInfo,
   TFile,
-  moment,
 } from 'obsidian';
 
 import KanbanPlugin from '../../main';

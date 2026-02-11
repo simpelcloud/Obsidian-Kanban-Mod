@@ -1,4 +1,4 @@
-import { App, TFile, moment } from 'obsidian';
+import { App, TFile } from 'obsidian';
 import { KanbanSettings } from 'src/Settings';
 import { StateManager } from 'src/StateManager';
 import { anyToString } from 'src/components/Item/MetadataTable';
