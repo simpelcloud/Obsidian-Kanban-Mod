@@ -1,17 +1,45 @@
-# Intellij
+# IDE
+.idea/
 *.iml
-.idea
+.vscode/
+*.swp
+*.swo
+*~
 
-# npm
-node_modules
-package-lock.json
+# Dependencies
+node_modules/
 
-# build
-.DS_Store
-*.js.map
-.env
-yarn*
-dist
-test-vault/
+# pnpm
+pnpm-debug.log*
+.pnpm-store/
+
+# Build artifacts
+dist/
+build/
 main.js
 styles.css
+*.js.map
+
+# Environment
+.env
+.env.local
+
+# Testing
+test-vault/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Tools
+.eslintcache
+.tsbuildinfo
+.turbo/
+.cache/
+coverage/
