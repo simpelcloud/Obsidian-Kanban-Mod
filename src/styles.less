@@ -1803,3 +1803,23 @@ body:not(.native-scrollbars) .kanban-plugin__scroll-container::-webkit-scrollbar
     background-color: var(--date-background-color, rgba(var(--mono-rgb-100), 0.05));
   }
 }
+
+.kanban-plugin__item {
+  .internal-link {
+    color: var(--text-normal) !important;
+
+    &:hover {
+      color: var(--text-accent) !important;
+    }
+  }
+}
+
+.kanban-plugin__markdown-preview-wrapper {
+  .internal-link {
+    color: var(--text-normal) !important;
+
+    &:hover {
+      color: var(--text-accent) !important;
+    }
+  }
+}
