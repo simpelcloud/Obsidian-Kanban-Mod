@@ -1,10 +1,15 @@
 import builtins from 'builtin-modules';
+import { execSync } from 'child_process';
+import { config as dotenvConfig } from 'dotenv';
 import esbuild from 'esbuild';
 import { lessLoader } from 'esbuild-plugin-less';
 import fs from 'fs';
 import MagicString from 'magic-string';
 import path from 'path';
 import process from 'process';
+
+// Load environment variables from .env file
+dotenvConfig();
 
 const toFunction = (functionOrValue) => {
   if (typeof functionOrValue === 'function') return functionOrValue;
@@ -103,12 +108,29 @@ const renamePlugin = {
   name: 'rename-styles',
   setup(build) {
     build.onEnd(() => {
-      const { outfile } = build.initialOptions;
-      const outcss = outfile.replace(/\.js$/, '.css');
-      const fixcss = outfile.replace(/main\.js$/, 'styles.css');
+      const { outdir } = build.initialOptions;
+      if (!outdir) return;
+
+      const outcss = path.join(outdir, 'main.css');
+      const fixcss = path.join(outdir, 'styles.css');
       if (fs.existsSync(outcss)) {
         console.log('Renaming', outcss, 'to', fixcss);
         fs.renameSync(outcss, fixcss);
+      }
+    });
+  },
+};
+
+const copyToVaultPlugin = {
+  name: 'copy-to-vault',
+  setup(build) {
+    build.onEnd((result) => {
+      if (result.errors.length === 0 && process.env.TARGET_PLUGIN_DIR) {
+        try {
+          execSync('node scripts/copy-to-vault.mjs', { stdio: 'inherit' });
+        } catch (e) {
+          console.error('Failed to copy files to vault:', e.message);
+        }
       }
     });
   },
@@ -218,6 +240,8 @@ const context = await esbuild.context({
         cancelAnimationFrame: 'activeWindow.cancelAnimationFrame',
       },
     }),
+    renamePlugin,
+    copyToVaultPlugin,
   ],
   external: [
     'obsidian',
