@@ -96,6 +96,8 @@ export const LaneHeader = memo(function LaneHeader({
     setEditState,
     path: lanePath,
     lane,
+    isCollapsed,
+    toggleIsCollapsed,
   });
 
   useEffect(() => {
@@ -138,9 +140,11 @@ export const LaneHeader = memo(function LaneHeader({
           <GripIcon />
         </div>
 
-        <div onClick={toggleIsCollapsed} className={c('lane-collapse')}>
-          <Icon name="chevron-down" />
-        </div>
+        {isCollapsed && (
+          <div onClick={toggleIsCollapsed} className={c('lane-collapse')}>
+            <Icon name="chevron-down" />
+          </div>
+        )}
 
         <LaneTitle
           id={lane.id}

@@ -51,6 +51,7 @@ export const Kanban = ({ view, stateManager }: KanbanProps) => {
   const isAnythingDragging = useIsAnythingDragging();
 
   const rootRef = useRef<HTMLDivElement>(null);
+  const scrollOverlayRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState<string>('');
@@ -163,6 +164,49 @@ export const Kanban = ({ view, stateManager }: KanbanProps) => {
     }
   }, [boardData?.data.archive.length, maxArchiveLength]);
 
+  useEffect(() => {
+    if (boardView === 'list') {
+      return;
+    }
+
+    const root = rootRef.current;
+    const overlay = scrollOverlayRef.current;
+
+    if (!root || !overlay) {
+      return;
+    }
+
+    const onWheel = (event: WheelEvent) => {
+      const rect = overlay.getBoundingClientRect();
+      const { clientX, clientY, deltaX, deltaY } = event;
+
+      if (
+        clientX < rect.left ||
+        clientX > rect.right ||
+        clientY < rect.top ||
+        clientY > rect.bottom
+      ) {
+        return;
+      }
+
+      event.preventDefault();
+
+      const board = root.getElementsByClassName(c('board'))[0] as HTMLElement | undefined;
+
+      if (board) {
+        const horizontalDelta = Math.abs(deltaX) > Math.abs(deltaY) ? deltaX : deltaY;
+        board.scrollLeft += horizontalDelta;
+        board.scrollTop = 0;
+      }
+    };
+
+    root.addEventListener('wheel', onWheel, { passive: false, capture: true });
+
+    return () => {
+      root.removeEventListener('wheel', onWheel, true);
+    };
+  }, [boardView]);
+
   const boardModifiers = useMemo(() => {
     return getBoardModifiers(view, stateManager);
   }, [stateManager, view]);
@@ -225,6 +269,7 @@ export const Kanban = ({ view, stateManager }: KanbanProps) => {
             ])}
             {...html5DragHandlers}
           >
+            {boardView !== 'list' && <div ref={scrollOverlayRef} className={c('scroll-overlay')} />}
             {(isLaneFormVisible || boardData.children.length === 0) && (
               <LaneForm onNewLane={onNewLane} closeLaneForm={closeLaneForm} />
             )}

@@ -52,6 +52,11 @@ export function useItemMenu({
 
       menu
         .addItem((i) => {
+          i.setIcon('lucide-trash-2')
+            .setTitle(t('Delete card'))
+            .onClick(() => boardModifiers.deleteEntity(path));
+        })
+        .addItem((i) => {
           i.setIcon('lucide-file-plus-2')
             .setTitle(t('New note from card'))
             .onClick(async () => {
@@ -179,11 +184,6 @@ export function useItemMenu({
           i.setIcon('lucide-archive')
             .setTitle(t('Archive card'))
             .onClick(() => boardModifiers.archiveItem(path));
-        })
-        .addItem((i) => {
-          i.setIcon('lucide-trash-2')
-            .setTitle(t('Delete card'))
-            .onClick(() => boardModifiers.deleteEntity(path));
         })
         .addSeparator()
         .addItem((i) => {

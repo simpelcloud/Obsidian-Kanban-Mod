@@ -64,9 +64,17 @@ export interface UseSettingsMenuParams {
   setEditState: Dispatch<StateUpdater<EditState>>;
   path: Path;
   lane: Lane;
+  isCollapsed: boolean;
+  toggleIsCollapsed: () => void;
 }
 
-export function useSettingsMenu({ setEditState, path, lane }: UseSettingsMenuParams) {
+export function useSettingsMenu({
+  setEditState,
+  path,
+  lane,
+  isCollapsed,
+  toggleIsCollapsed,
+}: UseSettingsMenuParams) {
   const { stateManager, boardModifiers } = useContext(KanbanContext);
   const [confirmAction, setConfirmAction] = useState<LaneAction>(null);
 
@@ -94,6 +102,12 @@ export function useSettingsMenu({ setEditState, path, lane }: UseSettingsMenuPar
           .setIcon('lucide-edit-3')
           .setTitle(t('Edit list'))
           .onClick(() => setEditState({ x: 0, y: 0 }));
+      })
+      .addItem((item) => {
+        item
+          .setIcon(isCollapsed ? 'lucide-chevron-down' : 'lucide-chevron-up')
+          .setTitle(isCollapsed ? t('Expand list') : t('Collapse list'))
+          .onClick(() => toggleIsCollapsed());
       })
       .addItem((item) => {
         item

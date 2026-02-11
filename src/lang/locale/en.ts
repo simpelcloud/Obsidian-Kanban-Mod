@@ -258,6 +258,8 @@ const en = {
     'Are you sure you want to archive all cards in this list?',
   'Yes, archive cards': 'Yes, archive cards',
   'Edit list': 'Edit list',
+  'Collapse list': 'Collapse list',
+  'Expand list': 'Expand list',
   'Archive cards': 'Archive cards',
   'Archive list': 'Archive list',
   'Delete list': 'Delete list',
