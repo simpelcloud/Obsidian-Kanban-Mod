@@ -1,6 +1,10 @@
-# Obsidian Kanban Plugin
+# Obsidian Kanban Plugin MOD
 
-**The Kanban plugin is looking for new maintainers.** Interested? [Read more here.](https://github.com/mgmeyers/obsidian-kanban/blob/main/MAINTAINERS.md)
+## 🚀 Recent Updates
+
+- 🎯 **Style improvements & horizontal scroll** - Enhanced styling and added horizontal scrolling support
+- 📦 **Shift to pnpm** - Migrated package manager from npm/yarn to pnpm for faster builds and better monorepo support
+- 🔌 **Auto load plugin** - Added automatic plugin loading in specified vault path via `TARGET_PLUGIN_DIR`
 
 ---
 
