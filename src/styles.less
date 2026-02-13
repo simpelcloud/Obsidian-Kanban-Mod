@@ -722,6 +722,25 @@ button.kanban-plugin__new-item-button {
   background: var(--background-primary);
 }
 
+.kanban-plugin__item:has(.kanban-plugin__item-delete-confirm) {
+  animation: deleteConfirmFlash 0.3s ease-in-out 3;
+  border: 3px solid var(--text-error) !important;
+}
+
+@keyframes deleteConfirmFlash {
+  0%,
+  100% {
+    border-color: var(--text-error);
+  }
+  50% {
+    border-color: transparent;
+  }
+}
+
+.kanban-plugin__item-delete-confirm {
+  /* Placeholder class for selection */
+}
+
 .kanban-plugin__item-title-wrapper {
   background: var(--background-primary);
   display: flex;

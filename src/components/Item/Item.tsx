@@ -48,6 +48,9 @@ const ItemInner = memo(function ItemInner({
 }: ItemInnerProps) {
   const { stateManager, boardModifiers } = useContext(KanbanContext);
   const [editState, setEditState] = useState<EditState>(EditingState.cancel);
+  const [deleteConfirmState, setDeleteConfirmState] = useState(false);
+  const deleteConfirmTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const contentWrapperRef = useRef<HTMLDivElement>(null);
 
   const dndManager = useContext(DndManagerContext);
 
@@ -97,6 +100,12 @@ const ItemInner = memo(function ItemInner({
     [setEditState]
   );
 
+  const onClick = useCallback(() => {
+    if (!isEditing(editState)) {
+      contentWrapperRef.current?.focus();
+    }
+  }, [editState]);
+
   const ignoreAttr = useMemo(() => {
     if (isEditing(editState)) {
       return {
@@ -107,12 +116,50 @@ const ItemInner = memo(function ItemInner({
     return {};
   }, [editState]);
 
+  const onKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (isEditing(editState)) return;
+      if (e.key === 'Delete') {
+        e.preventDefault();
+        if (deleteConfirmState) {
+          // Second Delete - delete the card
+          if (deleteConfirmTimeoutRef.current) {
+            clearTimeout(deleteConfirmTimeoutRef.current);
+          }
+          boardModifiers.deleteEntity(path);
+        } else {
+          // First Delete - show confirm state
+          setDeleteConfirmState(true);
+          deleteConfirmTimeoutRef.current = setTimeout(() => {
+            setDeleteConfirmState(false);
+          }, 1000);
+        }
+      }
+    },
+    [editState, deleteConfirmState, boardModifiers, path]
+  );
+
+  useEffect(() => {
+    return () => {
+      if (deleteConfirmTimeoutRef.current) {
+        clearTimeout(deleteConfirmTimeoutRef.current);
+      }
+    };
+  }, []);
+
   return (
     <div
+      ref={contentWrapperRef}
+      onClick={onClick}
       // eslint-disable-next-line react/no-unknown-property
       onDblClick={onDoubleClick}
       onContextMenu={onContextMenu}
-      className={c('item-content-wrapper')}
+      onKeyDown={onKeyDown as any}
+      tabIndex={0}
+      className={classcat([
+        c('item-content-wrapper'),
+        deleteConfirmState && c('item-delete-confirm'),
+      ])}
       {...ignoreAttr}
     >
       <div className={c('item-title-wrapper')} {...ignoreAttr}>
