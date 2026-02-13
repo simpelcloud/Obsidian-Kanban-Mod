@@ -44,18 +44,9 @@ export function useItemMenu({
       const hasDate = !!item.data.metadata.date;
       const hasTime = !!item.data.metadata.time;
 
-      const menu = new Menu().addItem((i) => {
-        i.setIcon('lucide-edit')
-          .setTitle(t('Edit card'))
-          .onClick(() => setEditState(coordinates));
-      });
+      const menu = new Menu();
 
       menu
-        .addItem((i) => {
-          i.setIcon('lucide-trash-2')
-            .setTitle(t('Delete card'))
-            .onClick(() => boardModifiers.deleteEntity(path));
-        })
         .addItem((i) => {
           i.setIcon('lucide-file-plus-2')
             .setTitle(t('New note from card'))
@@ -97,6 +88,16 @@ export function useItemMenu({
 
               boardModifiers.updateItem(path, stateManager.updateItemContent(item, newTitleRaw));
             });
+        })
+        .addItem((i) => {
+          i.setIcon('lucide-edit')
+            .setTitle(t('Edit card'))
+            .onClick(() => setEditState(coordinates));
+        })
+        .addItem((i) => {
+          i.setIcon('lucide-trash-2')
+            .setTitle(t('Delete card'))
+            .onClick(() => boardModifiers.deleteEntity(path));
         })
         .addItem((i) => {
           i.setIcon('lucide-link')
