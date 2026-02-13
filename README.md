@@ -2,9 +2,10 @@
 
 ## 🚀 Recent Updates
 
-- 🎯 **Style improvements & horizontal scroll** - Enhanced styling and added horizontal scrolling support
+- 🎯 **Style improvements & horizontal scroll** - Enhanced styling and added horizontal scrolling support, click outside card to exit card edit mode
 - 📦 **Shift to pnpm** - Migrated package manager from npm/yarn to pnpm for faster builds and better monorepo support
 - 🔌 **Auto load plugin** - Added automatic plugin loading in specified vault path via `TARGET_PLUGIN_DIR`
+- **Press delete key twice** - to delete a card
 
 ---
 
