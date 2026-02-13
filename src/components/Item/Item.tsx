@@ -130,7 +130,7 @@ const ItemInner = memo(function ItemInner({
           editState={editState}
           isStatic={isStatic}
         />
-        <ItemMenuButton editState={editState} setEditState={setEditState} showMenu={showItemMenu} />
+        {/* <ItemMenuButton editState={editState} setEditState={setEditState} showMenu={showItemMenu} /> */}
       </div>
       <ItemMetadata searchQuery={isMatch ? searchQuery : undefined} item={item} />
     </div>
